@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: linear-gradient(160deg, #FAF7F2 0%, #F3EDE3 55%, #F7F2EA 100%);
+  min-height: 100vh;
+  color: #1A1A2E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Outfit', system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* ── Noise texture overlay on body ─────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* all page content sits above noise */
+#root { position: relative; z-index: 1; }
+
+/* ── Glassmorphism utility ──────────────────────────────────────────────── */
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.60);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.70);
+    box-shadow: 0 4px 32px 0 rgba(200, 169, 106, 0.08);
+  }
+
+  .glass-sm {
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.60);
+    box-shadow: 0 2px 16px 0 rgba(200, 169, 106, 0.06);
+  }
+
+  .glass-dark {
+    background: rgba(26, 26, 46, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* gradient gold border glow on hover */
+  .card-hover-glow {
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  .card-hover-glow:hover {
+    box-shadow:
+      0 16px 48px 0 rgba(200, 169, 106, 0.18),
+      0 0 0 1.5px rgba(200, 169, 106, 0.30);
+    transform: translateY(-4px);
+  }
+
+  /* section wrapper consistent spacing */
+  .section-pad {
+    @apply py-24 md:py-28;
+  }
+}
+
+/* ── Blob drift animation ───────────────────────────────────────────────── */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(28px, -22px) scale(1.05); }
+  66%       { transform: translate(-18px, 18px) scale(0.97); }
+}
+
+.blob    { animation: blob-drift 14s ease-in-out infinite; }
+.blob-d2 { animation-delay: 3.5s; }
+.blob-d4 { animation-delay: 7s; }
+.blob-d6 { animation-delay: 10.5s; }
+
+/* ── Glow pulse for CTA button ──────────────────────────────────────────── */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 2px 16px rgba(184, 149, 74, 0.32); }
+  50%       { box-shadow: 0 4px 32px rgba(184, 149, 74, 0.58), 0 0 0 4px rgba(184,149,74,0.10); }
+}
+
+.btn-glow-pulse {
+  animation: glow-pulse 2.8s ease-in-out infinite;
+}
+
+/* ── Gold glow ring for team photo ─────────────────────────────────────── */
+@keyframes ring-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(200,169,106,0.25), 0 0 18px rgba(200,169,106,0.12); }
+  50%       { box-shadow: 0 0 0 4px rgba(200,169,106,0.40), 0 0 32px rgba(200,169,106,0.22); }
+}
+
+.photo-ring {
+  animation: ring-pulse 3s ease-in-out infinite;
+}
+
+/* ── Smooth section separator line ─────────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,169,106,0.20), transparent);
+  border: none;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F3EDE3; }
+::-webkit-scrollbar-thumb { background: rgba(200,169,106,0.35); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(200,169,106,0.6); }
+
+/* ── Selection ──────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(200,169,106,0.22);
+  color: #1A1A2E;
+}
